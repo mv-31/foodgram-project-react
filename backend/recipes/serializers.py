@@ -4,11 +4,12 @@ from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from .models import (Tag, Ingredient, RecipeIngredient, Recipe,
-                     FavoriteRecipe, ShoppingList)
+from .models import (
+    Tag, Ingredient, RecipeIngredient, Recipe, FavoriteRecipe, ShoppingList
+)
 from users.models import Follow
 from foodgram.settings import MIN_AMOUNT_INGREDIENT, MIN_COOKING_TIME
-from users.serializers import CustomUserSerializer
+from users.serializers import UserSerializer
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -72,7 +73,7 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     """
     Сериализатор для создания рецептов.
     """
-    author = CustomUserSerializer(
+    author = UserSerializer(
         read_only=True,
     )
     tags = serializers.PrimaryKeyRelatedField(
@@ -153,7 +154,7 @@ class RecipeShowSerializer(serializers.ModelSerializer):
     """
     Сериализатор для отображения рецептов.
     """
-    author = CustomUserSerializer(
+    author = UserSerializer(
         read_only=True,
     )
     tags = TagSerializer(

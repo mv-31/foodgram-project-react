@@ -3,14 +3,17 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+from foodgram import settings
 
-class CustomUser(AbstractUser):
+USER = 'user'
+ADMIN = 'admin'
+IS_BLOCKED = 'is_blocked'
+
+
+class User(AbstractUser):
     """
     Модель пользователей.
     """
-    USER = 'user'
-    ADMIN = 'admin'
-    IS_BLOCKED = 'is_blocked'
     ROLES = (
         (USER, USER),
         (ADMIN, ADMIN),
@@ -83,13 +86,13 @@ class Follow(models.Model):
     Модель подписок на пользователей.
     """
     user = models.ForeignKey(
-        CustomUser,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='follower',
         verbose_name='Подписчик',
     )
     author = models.ForeignKey(
-        CustomUser,
+        settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
         related_name='following',
         verbose_name='Автор',

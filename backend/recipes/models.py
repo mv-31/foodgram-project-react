@@ -2,8 +2,8 @@ from colorfield.fields import ColorField
 from django.core.validators import MinValueValidator
 from django.db import models
 
-from foodgram.settings import MIN_AMOUNT_INGREDIENT, MIN_COOKING_TIME
-from users.models import CustomUser
+from foodgram import settings
+from users.models import User
 
 
 class Tag(models.Model):
@@ -80,7 +80,7 @@ class Recipe(models.Model):
         help_text='Название рецепта',
     )
     author = models.ForeignKey(
-        CustomUser,
+        User,
         on_delete=models.CASCADE,
         related_name='recipes',
         verbose_name='Автор рецепта',
@@ -109,7 +109,7 @@ class Recipe(models.Model):
     )
     cooking_time = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(
-            MIN_COOKING_TIME,
+            settings.MIN_COOKING_TIME,
             message='Время должно быть больше нуля!',
         )],
         verbose_name='Время приготовления',
@@ -143,7 +143,7 @@ class RecipeIngredient(models.Model):
     )
     amount = models.PositiveSmallIntegerField(
         validators=[MinValueValidator(
-            MIN_AMOUNT_INGREDIENT,
+            settings.MIN_AMOUNT_INGREDIENT,
             message='Количество должно быть больше нуля!',
         )],
         verbose_name='Количество',
@@ -175,7 +175,7 @@ class FavoriteRecipe(models.Model):
         related_name='favorite_recipe',
     )
     user = models.ForeignKey(
-        CustomUser,
+        User,
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='favorite_user',
@@ -207,7 +207,7 @@ class ShoppingList(models.Model):
         related_name='shopping_recipe'
     )
     user = models.ForeignKey(
-        CustomUser,
+        User,
         on_delete=models.CASCADE,
         verbose_name='Пользователь',
         related_name='shopping_user',

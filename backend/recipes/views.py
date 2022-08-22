@@ -11,12 +11,14 @@ from rest_framework.response import Response
 
 from foodgram.paginators import PageLimitPagination
 from .filters import IngredientFilter, RecipeFilter
-from .models import (Tag, Ingredient, Recipe, FavoriteRecipe,
-                     ShoppingList, RecipeIngredient)
+from .models import (
+    FavoriteRecipe, Ingredient, Recipe, RecipeIngredient, ShoppingList, Tag
+)
 from .permissions import AuthorOrReadOnly, AdminOrReadOnly
-from .serializers import (TagSerializer, IngredientSerializer,
-                          RecipeCreateSerializer, RecipeShowSerializer,
-                          RecipeListSerializer)
+from .serializers import (
+    IngredientSerializer, RecipeCreateSerializer, RecipeShowSerializer,
+    RecipeListSerializer, TagSerializer,
+)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
@@ -62,7 +64,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=True,
-        methods=['post', 'delete'],
+        methods=['POST', 'DELETE'],
         permission_classes=(IsAuthenticated,)
     )
     def favorite(self, request, pk=None):
@@ -72,7 +74,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(
         detail=True,
-        methods=['post', 'delete'],
+        methods=['POST', 'DELETE'],
         permission_classes=(IsAuthenticated,)
     )
     def shopping_cart(self, request, pk):
@@ -82,8 +84,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def add_recipe(self, model, request, pk):
         recipe = get_object_or_404(Recipe, id=pk)
-        if model.objects.filter(recipe=recipe,
-                                user=request.user).exists():
+        if model.objects.filter(
+            recipe=recipe,
+            user=request.user,
+        ).exists():
             return Response(status=HTTPStatus.BAD_REQUEST)
         model.objects.create(recipe=recipe, user=request.user)
         serializer = RecipeListSerializer(recipe)
@@ -91,10 +95,14 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     def delete_recipe(self, model, request, pk):
         recipe = get_object_or_404(Recipe, id=pk)
-        if model.objects.filter(user=request.user,
-                                recipe=recipe).exists():
-            model.objects.filter(user=request.user,
-                                 recipe=recipe).delete()
+        if model.objects.filter(
+            user=request.user,
+            recipe=recipe,
+        ).exists():
+            model.objects.filter(
+                user=request.user,
+                recipe=recipe,
+            ).delete()
             return Response(status=HTTPStatus.NO_CONTENT)
         return Response(status=HTTPStatus.BAD_REQUEST)
 
@@ -113,7 +121,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         ).values(
             'ingredient__name',
             'ingredient__measurement_unit',
-        ).annotate(amount=Sum('amount')).order_by('ingredient__name')
+        ).annotate(
+            amount=Sum('amount')
+        ).order_by('ingredient__name')
         response = HttpResponse(
             content_type='text/plain',
             charset='utf-8',

@@ -7,16 +7,16 @@ from rest_framework.response import Response
 
 from foodgram.paginators import PageLimitPagination
 from recipes.serializers import SubscriptionSerializer
-from .models import CustomUser, Follow
-from .serializers import CustomUserSerializer
+from .models import User, Follow
+from .serializers import UserSerializer
 
 
 class CustomUserViewSet(UserViewSet):
     """
     Работа с пользователями.
     """
-    queryset = CustomUser.objects.all()
-    serializer_class = CustomUserSerializer
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
     pagination_class = PageLimitPagination
 
     @action(
@@ -42,7 +42,7 @@ class CustomUserViewSet(UserViewSet):
     )
     def subscribe(self, request, id=None):
         user = request.user
-        author = get_object_or_404(CustomUser, id=id)
+        author = get_object_or_404(User, id=id)
         if request.method == 'POST':
             if user == author:
                 return Response(
@@ -66,10 +66,10 @@ class CustomUserViewSet(UserViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         follow = Follow.objects.filter(user=user, author=author)
-        if follow.exists():
-            follow.delete()
+        if follow.delete() > 0:
             return Response(status=status.HTTP_204_NO_CONTENT)
-        return Response(
-            {'errors': 'Вы не подписаны на этого автора'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
+        else:
+            return Response(
+                {'errors': 'Вы не подписаны на этого автора'},
+                status=status.HTTP_400_BAD_REQUEST
+            )

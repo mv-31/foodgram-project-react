@@ -1,39 +1,39 @@
 from djoser.serializers import UserSerializer
 from rest_framework import serializers
 
-from .models import Follow, CustomUser
+from .models import Follow, User
 
 
-class CustomUserCreateSerializer(UserSerializer):
+class UserCreateSerializer(UserSerializer):
     """
     Сериализатор для создания пользователей.
     """
     class Meta:
         fields = (
-            "email",
-            "id",
-            "username",
-            "first_name",
-            "last_name",
-            "password",
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'password',
         )
-        model = CustomUser
+        model = User
 
 
-class CustomUserSerializer(UserSerializer):
+class UserSerializer(UserSerializer):
     """
     Сериализатор для отображения пользователей.
     """
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
-        model = CustomUser
+        model = User
         fields = (
-            "email",
-            "id",
-            "username",
-            "first_name",
-            "last_name",
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
             'is_subscribed',
         )
 
@@ -42,4 +42,6 @@ class CustomUserSerializer(UserSerializer):
         if user.is_anonymous:
             return False
         return Follow.objects.filter(
-            author=obj.id, user=user).exists()
+            author=obj.id,
+            user=user,
+        ).exists()
