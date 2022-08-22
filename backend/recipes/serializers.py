@@ -36,11 +36,17 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
     """
     Сериализатор для ингредиентов в рецепте.
     """
-    id = serializers.PrimaryKeyRelatedField(queryset=Ingredient.objects.all())
-    name = serializers.CharField(required=False)
-    measurement_unit = serializers.CharField(required=False)
-    amount = serializers.IntegerField(
-        validators=(MinValueValidator(MIN_AMOUNT_INGREDIENT),)
+    id = serializers.PrimaryKeyRelatedField(
+        queryset=Ingredient.objects.all(),
+        source='ingredient.id'
+    )
+    name = serializers.CharField(
+        read_only=True,
+        source='ingredient.name'
+    )
+    measurement_unit = serializers.CharField(
+        read_only=True,
+        source='ingredient.measurement_unit'
     )
 
     class Meta:
@@ -48,9 +54,16 @@ class RecipeIngredientSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'name',
+            'amount',
             'measurement_unit',
             'amount',
         )
+        validators = [
+            UniqueTogetherValidator(
+                queryset=Ingredient.objects.all(),
+                fields=['ingredient', 'recipe']
+            )
+        ]
 
 
 class RecipeCreateIngredientSerializer(serializers.ModelSerializer):
@@ -73,12 +86,12 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
     """
     Сериализатор для создания рецептов.
     """
-    author = UserSerializer(
-        read_only=True,
-    )
     tags = serializers.PrimaryKeyRelatedField(
         queryset=Tag.objects.all(),
         many=True,
+    )
+    author = UserSerializer(
+        read_only=True,
     )
     ingredients = RecipeCreateIngredientSerializer(
         many=True,
@@ -92,9 +105,9 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = (
             'id',
-            'author',
             'tags',
             'ingredients',
+            'author',
             'name',
             'image',
             'text',
@@ -136,6 +149,11 @@ class RecipeCreateSerializer(serializers.ModelSerializer):
         self.create_ingredients(ingredients, recipe)
         return recipe
 
+    def to_representation(self, instance):
+        request = self.context.get('request')
+        context = {'request': request}
+        return RecipeShowSerializer(instance, context=context).data
+
     @transaction.atomic
     def update(self, recipe, validated_data):
         """
@@ -154,12 +172,12 @@ class RecipeShowSerializer(serializers.ModelSerializer):
     """
     Сериализатор для отображения рецептов.
     """
-    author = UserSerializer(
-        read_only=True,
-    )
     tags = TagSerializer(
         read_only=True,
         many=True,
+    )
+    author = UserSerializer(
+        read_only=True,
     )
     ingredients = RecipeIngredientSerializer(
         many=True,
@@ -174,8 +192,8 @@ class RecipeShowSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = (
             'id',
-            'author',
             'tags',
+            'author',
             'ingredients',
             'name',
             'image',
