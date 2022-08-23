@@ -31,13 +31,13 @@ class RecipeFilter(filters.FilterSet):
     )
     tags = filters.AllValuesMultipleFilter(field_name='tags__slug')
 
-    def favorite_filter(self, queryset, name, value):
+    def favorite_filter(self, **kwargs):
         recipes = Recipe.objects.filter(
             favorite_recipe__user=self.request.user
         )
         return recipes
 
-    def shopping_cart_filter(self, queryset, name, value):
+    def shopping_cart_filter(self, **kwargs):
         recipes = Recipe.objects.filter(
             shopping_recipe__user=self.request.user
         )
