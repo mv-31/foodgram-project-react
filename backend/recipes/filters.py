@@ -32,10 +32,14 @@ class RecipeFilter(filters.FilterSet):
     tags = filters.AllValuesMultipleFilter(field_name='tags__slug')
 
     def favorite_filter(self, **kwargs):
-        return Recipe.objects.filter(favorite_recipe__user=self.request.user)
+        return Recipe.objects.filter(
+            favorite_recipe__user=self.request.user
+        )
 
     def shopping_cart_filter(self, **kwargs):
-        return Recipe.objects.filter(shopping_recipe__user=self.request.user)
+        return Recipe.objects.filter(
+            shopping_recipe__user=self.request.user
+        )
 
     class Meta:
         model = Recipe
