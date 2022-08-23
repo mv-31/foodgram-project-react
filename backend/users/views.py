@@ -8,16 +8,21 @@ from rest_framework.response import Response
 from foodgram.paginators import PageLimitPagination
 from recipes.serializers import SubscriptionSerializer
 from .models import User, Follow
-from .serializers import UserSerializer
+from .serializers import UserCreateSerializer, UserSerializer
 
 
-class CustomUserViewSet(UserViewSet):
+class UserViewSet(UserViewSet):
     """
     Работа с пользователями.
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = PageLimitPagination
+
+    def get_serializer_class(self):
+        if self.action in ['list', 'retrieve']:
+            return UserSerializer
+        return UserCreateSerializer
 
     @action(
         detail=False,

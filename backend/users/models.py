@@ -1,7 +1,5 @@
-import uuid
-
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
 
 from foodgram import settings
 
@@ -56,16 +54,16 @@ class User(AbstractUser):
         null=True,
         help_text='Пароль',
     )
-    confirmation_code = models.UUIDField(
-        default=uuid.uuid4,
-        unique=True,
-        editable=False,
-    )
+
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = [
+        'username',
+        'password',
+        'first_name',
+        'last_name',
+    ]
 
     class Meta:
-        ordering = ['id']
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
 
