@@ -100,43 +100,77 @@ docker-compose exec backend python manage.py loaddata recipes/data/tag.json
 
 ### Подготовка сервера
 - Запустить сервер и подключиться к нему:
-``` ssh username@ip_address ```
+```
+ssh username@ip_address
+```
 - Установить обновления apt:
-``` sudo apt upgrade -y ```
+```
+sudo apt upgrade -y
+```
 - Установить nginx:
-``` sudo apt install nginx -y ```
+```
+sudo apt install nginx
+```
 - Остановить службу nginx:
-``` sudo systemctl stop nginx ```
+```
+sudo systemctl stop nginx
+```
 - Установить docker:
-``` sudo apt install docker.io ```
+```
+sudo apt install docker.io
+```
 - Установить стабильную версию docker-compose: 
-``` sudo curl -SL https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose ```
+```
+sudo curl -SL https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose
+```
 - Применить к файлу права доступа: 
-``` sudo chmod +x /usr/local/bin/docker-compose	```
+```
+sudo chmod +x /usr/local/bin/docker-compose
+```
 - Проверить версию docker-compose:
-``` docker-compose --version ```  
+```
+docker-compose --version
+```  
 - Создать на сервере три файла и скопировать в них код из проекта на GitHub:  
   - home/'username'/docker-compose.yml  
-  ``` sudo nano docker-compose.yaml ```  
+  ```
+  sudo nano docker-compose.yaml
+  ```  
   - home/'username'/nginx.conf
-  ``` sudo nano nginx.conf ```  
+  ```
+  sudo nano nginx.conf
+  ```  
   - home/'username'/nginx/default.conf
-  ``` mkdir nginx ```  
-  ``` sudo nano nginx/default.conf ```
+  ```
+  mkdir nginx
+  ```  
+  ```
+  sudo nano nginx/default.conf
+  ```
 
 ### Развертывание приложения на боевом сервере
 
 - Запушить репозиторий. Статус работы отображается в Actions на GitHub.
 - Сделать миграции
-``` sudo docker-compose exec backend python manage.py migrate ```
+```
+sudo docker-compose exec backend python manage.py migrate
+```
 - Создать суперпользователя
-``` sudo docker-compose exec backend python manage.py createsuperuser ```
+```
+sudo docker-compose exec backend python manage.py createsuperuser
+```
 - Собрать статику
-``` sudo docker-compose exec backend python manage.py collectstatic --no-inpu ```
+```
+sudo docker-compose exec backend python manage.py collectstatic --no-inpu
+```
 - Заполнить базу ингридиентами
-``` sudo docker-compose exec backend python manage.py loaddata recipes/data/ingredient.json ```
+```
+sudo docker-compose exec backend python manage.py loaddata recipes/data/ingredient.json
+```
 - Заполни базу тегами
-``` sudo docker-compose exec backend python manage.py loaddata recipes/data/tag.json ```
+```
+sudo docker-compose exec backend python manage.py loaddata recipes/data/tag.json
+```
 
 ---
 # Сайт проекта Foodgram
