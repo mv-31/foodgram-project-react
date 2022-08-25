@@ -115,12 +115,14 @@ docker-compose exec backend python manage.py loaddata recipes/data/tag.json
 ``` sudo chmod +x /usr/local/bin/docker-compose	```
 - Проверить версию docker-compose:
 ``` docker-compose --version ```  
-- Создать на сервере два файла и скопировать в них код из проекта на GitHub:  
+- Создать на сервере три файла и скопировать в них код из проекта на GitHub:  
   - home/'username'/docker-compose.yml  
-   ``` sudo nano docker-compose.yaml ```  
-  - home/'username'/nginx/default.conf  
-``` mkdir nginx ```  
-``` sudo nano nginx/default.conf ```
+  ``` sudo nano docker-compose.yaml ```  
+  - home/'username'/nginx.conf
+  ``` sudo nano nginx.conf ```  
+  - home/'username'/nginx/default.conf
+  ``` mkdir nginx ```  
+  ``` sudo nano nginx/default.conf ```
 
 ### Развертывание приложения на боевом сервере
 Запушить репозиторий.
