@@ -20,9 +20,9 @@ class UserViewSet(UserViewSet):
     pagination_class = PageLimitPagination
 
     def get_serializer_class(self):
-        if self.action in ['list', 'retrieve']:
-            return UserSerializer
-        return UserCreateSerializer
+        if self.request.method == 'POST':
+            return UserCreateSerializer
+        return UserSerializer
 
     @action(
         detail=False,
