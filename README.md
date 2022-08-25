@@ -126,8 +126,18 @@ docker-compose exec backend python manage.py loaddata recipes/data/tag.json
 
 ### Развертывание приложения на боевом сервере
 
-Запушить репозиторий.
-Статус работы отображается в Actions на GitHub.
+- Запушить репозиторий. Статус работы отображается в Actions на GitHub.
+- Сделать миграции
+``` sudo docker-compose exec backend python manage.py migrate ```
+- Создать суперпользователя
+``` sudo docker-compose exec backend python manage.py createsuperuser ```
+- Собрать статику
+``` sudo docker-compose exec backend python manage.py collectstatic --no-inpu ```
+- Заполнить базу ингридиентами
+``` sudo docker-compose exec backend python manage.py loaddata recipes/data/ingredient.json ```
+- Заполни базу тегами
+``` sudo docker-compose exec backend python manage.py loaddata recipes/data/tag.json ```
+
 ---
 # Сайт проекта Foodgram
 ```
