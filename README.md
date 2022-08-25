@@ -111,14 +111,14 @@ docker-compose exec backend python manage.py loaddata recipes/data/tag.json
 ``` sudo apt install docker.io ```
 - Установить стабильную версию docker-compose: 
 ``` sudo curl -SL https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64 -o /usr/local/bin/docker-compose ```
-Применить к файлу права доступа: 
+- Применить к файлу права доступа: 
 ``` sudo chmod +x /usr/local/bin/docker-compose	```
-Проверить версию docker-compose:
+- Проверить версию docker-compose:
 ``` docker-compose --version ```  
 - Создать на сервере два файла и скопировать в них код из проекта на GitHub:  
-  - home/<username>/docker-compose.yml  
+  - home/'username'/docker-compose.yml  
    ``` sudo nano docker-compose.yaml ```  
-  - home/<username>/nginx/default.conf  
+  - home/'username'/nginx/default.conf  
 ``` mkdir nginx ```  
 ``` sudo nano nginx/default.conf ```
 
