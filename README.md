@@ -125,6 +125,7 @@ docker-compose exec backend python manage.py loaddata recipes/data/tag.json
   ``` sudo nano nginx/default.conf ```
 
 ### Развертывание приложения на боевом сервере
+
 Запушить репозиторий.
 Статус работы отображается в Actions на GitHub.
 ---
