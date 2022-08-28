@@ -1,4 +1,4 @@
-[![build, deploy, tests](https://github.com/mv-31/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/mv-31/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
+[![build, deploy, tests](https://github.com/Vombatoff/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)](https://github.com/Vombatoff/foodgram-project-react/actions/workflows/foodgram_workflow.yml/badge.svg)
 
 # Продуктовый помощник - Foodgram
 ### Описание
