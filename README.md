@@ -177,4 +177,4 @@ sudo docker-compose exec backend python manage.py loaddata recipes/data/tag.json
 
 ### Автор:
 
-[Vombatoff](https://github.com/Vombatoff/ "Vombatoff")
+[Wombatoff](https://github.com/Wombatoff/ "Wombatoff")
