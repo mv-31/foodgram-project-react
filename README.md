@@ -173,16 +173,7 @@ sudo docker-compose exec backend python manage.py loaddata recipes/data/tag.json
 ```
 
 ---
-# Сайт проекта Foodgram
-```
-http://158.160.9.118/
-```
-    
-### Документация API Foodgram
 
-```
-http://158.160.9.118/redoc/
-```
 
 ### Автор:
 
